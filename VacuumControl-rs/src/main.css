@@ -1,0 +1,170 @@
+/* SemiProbe palette — matches Navigator / Microscope / Prober Interface so
+   the suite has a consistent feel. Variable names are kept compatible with
+   what main.js already uses (--bg, --surface, --green, --amber, --red, --blue),
+   so the existing markup doesn't need to change. */
+:root {
+  --bg:         #18181A;  /* shared background */
+  --surface:    #1E1E20;  /* panels */
+  --surface2:   #242426;  /* inputs / elevated rows */
+  --border:     #484848;
+  --text:       #D0D0D0;
+  --text-dim:   #A0A0A0;
+
+  --green:      #3A703E;  /* success / pump down */
+  --green-dim:  #1E4021;
+  --amber:      #C08030;  /* accent / labels / vent */
+  --amber-dim:  #7A5020;
+  --red:        #822E3C;  /* danger / abort */
+  --red-dim:    #4A1A22;
+  --estop-red:  #8C1C1C;
+  /* "blue" was used for primary buttons; SemiProbe palette uses amber as
+     the accent instead, so map blue → amber to keep the JS happy without
+     introducing a non-suite colour. */
+  --blue:       var(--amber);
+
+  --radius:     6px;
+  --mono:       'Consolas', 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.app { display: grid; grid-template-columns: 280px 1fr 320px; gap: 12px; padding: 12px; height: 100vh; }
+
+/* ── Generic panel ──────────────────────────────────────────────────────── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: auto;
+}
+.panel h2 {
+  margin: 0; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--amber); border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+.panel h3 { margin: 6px 0 0; font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ── Status panel (left) ────────────────────────────────────────────────── */
+.metric { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0; }
+.metric__label { color: var(--text-dim); font-size: 11px; }
+.metric__value { font-family: var(--mono); font-size: 14px; color: var(--text); }
+.metric__value--big { font-size: 18px; color: var(--amber); }
+.metric__value--small { font-size: 11px; color: var(--text-dim); }
+
+.indicator {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 0; font-size: 12px;
+}
+.indicator__dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--text-dim); flex-shrink: 0;
+}
+.indicator__dot--on  { background: var(--green); box-shadow: 0 0 6px rgba(58,112,62,0.6); }
+.indicator__dot--off { background: var(--text-dim); }
+.indicator__dot--warn { background: var(--amber); box-shadow: 0 0 6px rgba(192,128,48,0.6); }
+.indicator__dot--err  { background: var(--red); box-shadow: 0 0 6px rgba(130,46,60,0.6); }
+
+/* ── Controls (middle) ──────────────────────────────────────────────────── */
+.btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 12px;
+  transition: filter 0.1s, background 0.1s;
+}
+.btn:hover { filter: brightness(1.15); }
+.btn:active { filter: brightness(0.9); }
+/* Solid-fill SemiProbe button style: green for "go" actions (Pump Down),
+   amber for the accent/secondary (Vent), red for danger (Abort) — matches
+   Navigator's E-Stop / motion-control conventions. White text throughout. */
+.btn--primary { background: var(--green); border-color: var(--green); color: #fff; }
+.btn--success { background: var(--green); border-color: var(--green); color: #fff; }
+.btn--warn    { background: var(--amber); border-color: var(--amber); color: #fff; }
+.btn--danger  { background: var(--estop-red); border-color: var(--estop-red); color: #fff; font-weight: 700; letter-spacing: 0.5px; }
+.btn--ghost   { background: transparent; }
+.btn--full    { width: 100%; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.progress {
+  position: relative;
+  height: 26px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.progress__bar {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  /* Solid green fill matching Navigator's success colour, with a subtle
+     darker edge so it reads as a single SemiProbe-green pill rather than
+     a rainbow gradient. */
+  background: linear-gradient(90deg, var(--green-dim), var(--green));
+  transition: width 0.3s;
+}
+.progress__text {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-family: var(--mono); color: #fff;
+  text-shadow: 0 0 2px rgba(0,0,0,0.7);
+}
+
+.seq-msg { font-family: var(--mono); font-size: 11px; color: var(--text-dim); min-height: 1.4em; }
+
+/* ── Log (right) ────────────────────────────────────────────────────────── */
+.log {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: #15171a;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px;
+  overflow-y: auto;
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.log__line { color: #b0d8b8; padding: 1px 0; }
+.log__line--error { color: #ff8080; }
+.log__line--info  { color: #6fb0e0; }
+.log__line--warn  { color: var(--amber); }
+
+/* ── Settings dialog ────────────────────────────────────────────────────── */
+.dialog-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.dialog {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px;
+  min-width: 480px; max-width: 80vw; max-height: 80vh;
+  display: flex; flex-direction: column; gap: 10px; overflow: auto;
+}
+.field { display: flex; flex-direction: column; gap: 3px; }
+.field label { font-size: 11px; color: var(--text-dim); }
+.field input, .field select {
+  padding: 6px 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.dialog__footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }

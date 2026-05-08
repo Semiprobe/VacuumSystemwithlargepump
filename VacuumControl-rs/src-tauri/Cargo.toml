@@ -1,0 +1,42 @@
+[package]
+name = "vacuum-control"
+version = "1.0.0"
+description = "Vacuum Control — Pfeiffer turbo + gauge automation (HiPace 800/1200, Duo 35 / Scroll)"
+authors = ["Semiconductor Engineering"]
+edition = "2021"
+
+[lib]
+name = "vacuum_control_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "vacuum-control"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri      = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+serde      = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow     = "1"
+dirs       = "5"
+serialport = "4"
+tokio      = { version = "1", features = ["full"] }
+chrono     = { version = "0.4", features = ["serde"] }
+async-trait = "0.1"
+
+[profile.release]
+panic        = "abort"
+codegen-units = 1
+lto          = true
+opt-level    = "s"
+strip        = true
+
+[profile.dev]
+incremental = true
+
+[package.metadata.tauri]
+active = true

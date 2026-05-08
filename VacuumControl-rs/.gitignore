@@ -1,0 +1,17 @@
+# Build artifacts
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+
+# (Cargo.lock and package-lock.json ARE committed — this is a binary
+# application, not a library, so reproducible builds matter.)
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
