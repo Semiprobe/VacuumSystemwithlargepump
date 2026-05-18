@@ -1,3 +1,7 @@
+//! Vacuum system state types — `PumpProfile` (which hardware rig), the
+//! turbo / gauge / valve `SystemState`, sequence machine `SeqState`. All
+//! serialized to the frontend via `state-update` events.
+
 use serde::{Deserialize, Serialize};
 
 /// Hardware identity of the turbo + backing pump combo. Picks the valve

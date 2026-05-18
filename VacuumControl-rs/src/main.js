@@ -1,3 +1,20 @@
+/**
+ * VacuumControl — turbo pump + backing pump dashboard and pump-down/vent
+ * sequencer for SemiProbe prober vacuum systems.
+ *
+ * Two supported hardware profiles (selectable at runtime via Settings):
+ *   * `HiPace1200Duo` — HiPace 1200 turbo + Duo 35 rotary, 3 valves
+ *     (V1/V2/V3), dual gauge (Ion + Pirani).
+ *   * `HiPace800Scroll` — HiPace 800 turbo + dry scroll pump, 4 valves
+ *     (gate / backing / vent / scroll-relay), Pirani only.
+ *
+ * UI shows live pressures, turbo speed/current, valve states, sequence
+ * progress, and a CSV-export log. All hardware I/O happens in the Rust
+ * backend through the `Hardware` trait (real impl talks to a Pfeiffer
+ * TPG 366 gauge + TC 1200 turbo controller over RS232; demo impl
+ * simulates log-scale pressure decay).
+ */
+
 import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
 

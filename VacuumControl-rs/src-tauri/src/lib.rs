@@ -1,3 +1,18 @@
+//! VacuumControl Tauri backend.
+//!
+//! Modules:
+//!   * `state`     — `SystemState`, `SeqState`, `PumpProfile`, etc.
+//!   * `settings`  — persisted config (COM ports, thresholds, log dir).
+//!   * `hardware`  — `Hardware` trait + `demo` and `real` implementations.
+//!   * `sequencer` — pump-down / vent state machine running in a tokio task.
+//!   * `csv_log`   — per-session CSV logger.
+//!   * `commands`  — Tauri command surface (start/stop sequence, set valves,
+//!                   read state, save/load settings).
+//!
+//! The polling loop ticks once per second, reads pressures + turbo state
+//! from the active `Hardware`, advances the `Sequencer` if running, writes
+//! a CSV row if logging, and emits a `state-update` event.
+
 mod commands;
 mod csv_log;
 mod hardware;
