@@ -3,12 +3,12 @@
    what main.js already uses (--bg, --surface, --green, --amber, --red, --blue),
    so the existing markup doesn't need to change. */
 :root {
-  --bg:         #18181A;  /* shared background */
-  --surface:    #1E1E20;  /* panels */
-  --surface2:   #242426;  /* inputs / elevated rows */
-  --border:     #484848;
-  --text:       #D0D0D0;
-  --text-dim:   #A0A0A0;
+  --bg:         #F0F0F0;  /* shared background (light, as Navigator's light mode) */
+  --surface:    #FFFFFF;  /* panels */
+  --surface2:   #F5F5F5;  /* inputs / elevated rows */
+  --border:     #CCCCCC;
+  --text:       #222222;
+  --text-dim:   #666666;
 
   --green:      #3A703E;  /* success / pump down */
   --green-dim:  #1E4021;
@@ -86,7 +86,8 @@ body {
   font-size: 12px;
   transition: filter 0.1s, background 0.1s;
 }
-.btn:hover { filter: brightness(1.15); }
+.btn:hover { filter: brightness(0.95); }
+.btn--primary:hover, .btn--success:hover, .btn--warn:hover, .btn--danger:hover { filter: brightness(1.12); }
 .btn:active { filter: brightness(0.9); }
 /* Solid-fill SemiProbe button style: green for "go" actions (Pump Down),
    amber for the accent/secondary (Vent), red for danger (Abort) — matches
@@ -130,7 +131,7 @@ body {
 .log {
   font-family: var(--mono);
   font-size: 11px;
-  background: #15171a;
+  background: #FAFAFA;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 8px;
@@ -139,14 +140,14 @@ body {
   white-space: pre-wrap;
   word-break: break-word;
 }
-.log__line { color: #b0d8b8; padding: 1px 0; }
-.log__line--error { color: #ff8080; }
-.log__line--info  { color: #6fb0e0; }
-.log__line--warn  { color: var(--amber); }
+.log__line { color: #2E5A33; padding: 1px 0; }
+.log__line--error { color: #822E3C; }
+.log__line--info  { color: #2F6690; }
+.log__line--warn  { color: var(--amber-dim); }
 
 /* ── Settings dialog ────────────────────────────────────────────────────── */
 .dialog-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
   display: flex; align-items: center; justify-content: center; z-index: 100;
 }
 .dialog {
