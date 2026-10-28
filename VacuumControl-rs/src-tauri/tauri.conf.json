@@ -21,7 +21,8 @@
         "center": true,
         "minWidth": 720,
         "minHeight": 540,
-        "decorations": true
+        "decorations": true,
+        "theme": "Light"
       }
     ],
     "security": { "csp": null }
